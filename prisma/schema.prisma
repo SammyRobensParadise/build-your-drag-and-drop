@@ -25,10 +25,21 @@ model Match {
   gameId           String?
   item1Title       String?
   item1Description String?
-  item1ImageURL    String?
+  item1            Image   @relation(fields: [image1Id], references: [id], name: "itemImage1")
   item2Title       String?
   item2Description String?
-  item2ImageURL    String?
+  item2            Image   @relation(fields: [image2Id], references: [id], name: "itemImage2")
+  image1Id         String
+  image2Id         String
+}
+
+model Image {
+  id    String @id @default(uuid())
+  img   Bytes  @db.ByteA
+  title String
+
+  Image1Matches Match[] @relation("itemImage1")
+  Image2Matches Match[] @relation("itemImage2")
 }
 
 model Game {
